@@ -34,7 +34,7 @@ function Login() {
         {loged == 1 ? (
           <h2></h2>
         ) : loged == 2 ? (
-          <h2 style={{ color: "green" }}>Log in succesful</h2>
+          <h2 style={{ color: "green" }}>Log in successfull</h2>
         ) : (
           <h2>Wrong Username or Password</h2>
         )}
