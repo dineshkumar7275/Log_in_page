@@ -4,55 +4,72 @@ import passwordpng from "./password.png";
 import personpng from "./person.png";
 import user from './user.svg.jpg'
 import { useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function Login() {
-  const [id, setid] = useState("");
+  const [username, setusername] = useState("");
   const [password, setpassword] = useState("");
-  const [loged, setloged] = useState(1);
   function getdata(e) {
-    console.log(id,password)
     e.preventDefault()
-    localStorage.setItem("id", "Admin");
+    localStorage.setItem("username", "Admin");
     localStorage.setItem("password", "Admin@123");
 
-    let ids= localStorage.getItem("id");
+    let ids= localStorage.getItem("username");
     let pass= localStorage.getItem("password");
-    if (ids == id && pass == password) {
-      localStorage.setItem("id", id);
+    if (ids == username && pass == password) {
+      localStorage.setItem("username", username);
       localStorage.setItem("password", password);
-      setloged(2);
-    } else {
-      setloged(3);
+      notify()
+      handleApi()
+    }
+    else if(username=="" || password=="")
+      {
+        blank()
+      }
+    else {
+      wrong()
     }
   }
+  
+  const notify=()=>
+  {
+    toast.dismiss();
+    toast.success('Log in Successful',{style:{
+      backgroundColor: 'lightgreen',
+      color:'green',
+       borderRadius: '10px',
+        
+    }},{closeButton:{innerHeight:'100px'}});
+  }
+  const wrong=()=>{
+    toast.dismiss();
+    toast.error('Wrong Username or Password',{style:{backgroundColor:'lightred'}});
+  }
+  const blank=()=>{
+    toast.dismiss();
+    toast.warn('Please enter Username and Password');
+  }
+
   return (
     <div className="Login">
       <div className="container">
        <img src={user} className="profile-photo"></img>
         <h1 className="head">LOG IN</h1>
-        {loged == 1 ? (
-          <h2></h2>
-        ) : loged == 2 ? (
-          <h2 style={{ color: "green" }}>Log in successfull</h2>
-        ) : (
-          <h2>Wrong Username or Password</h2>
-        )}
         <div className="data">
           <div className="profile">
-            {/* <i class="fa-solid fa-user" id="no"></i> */}
             <img src={personpng}></img>
             <input
               type="text"
               placeholder="Username"
               className="name"
               onChange={(e) => {
-                setid(e.target.value);
+                setusername(e.target.value);
               }}
             />
           </div>
           <div className="password">
-            {/* <i class="fa-solid fa-envelope"></i> */}
             <img src={passwordpng}></img>
             <input
               type="password"
@@ -69,6 +86,7 @@ function Login() {
           <button className="Log-in" type="submit" onClick={getdata}>
             Log in
           </button>
+          <ToastContainer  position="top-center" theme="colored" newestOnTop={true} autoClose={3000}/>
           </div>
         </div>
       </div>
